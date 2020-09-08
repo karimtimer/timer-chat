@@ -9,26 +9,28 @@
       <strong>#<%= @channel.name %></strong>
 
       <div>
-        <%= link_to "Leave", channel_channel_user_path(@channel), method: :delete, class: "btn btn-link" %>
+        <% if current_user.channels.include?(@channel) %>
+          <%= link_to "Leave", channel_channel_user_path(@channel), method: :delete, class: "btn btn-link p-0" %>
+        <% else %>
+          <%= link_to "Join #{@channel.name}", channel_channel_user_path(@channel), method: :post %>
+        <% end %>
       </div>
     </div>
 
     <div data-target="channel.messages">
       <%= render @channel.messages %>
     </div>
-
-  </div>
-
-  <div class="fixed-bottom row">
-    <div class="col-sm-10 offset-sm-2 p-2 bg-white">
-      <% if current_user.channels.include?(@channel) %>
+    <div class="row">
+      <div class="p-2 bg-white">
         <%= form_with model: [@channel, Message.new], data: { action: "ajax:success->channel#clearMessage" } do |form| %>
-          <%= form.text_field :body, placeholder: "Message ##{@channel.name}", class: "form-control", data: { target: "channel.newMessage" } %>
-        <% end %>
+          <% if current_user.channels.include?(@channel) %>
+            <%= form.text_field :body, placeholder: "Message ##{@channel.name}", class: "form-control", data: { target: "channel.newMessage" }, maxlength: 100 %>
 
-      <% else %>
-        <%= link_to "Join #{@channel.name}", channel_channel_user_path(@channel), method: :post %>
-      <% end %>
+          <% else %>
+            <%= form.text_field :body, :class => "form-control", :readonly => true %>
+          <% end %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

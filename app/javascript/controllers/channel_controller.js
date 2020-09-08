@@ -31,6 +31,7 @@ export default class extends Controller {
       if(!document.hidden) {
         this.subscription.perform("touch")
       }
+        this.scrollToBottom()
     }
   }
 

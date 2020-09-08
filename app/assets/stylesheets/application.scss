@@ -20,3 +20,40 @@
 body > .alert {
   margin-bottom: 0;
 }
+
+
+.my-name-color {
+  color:  #8a2be2;
+}
+.other-name-color {
+  color: #cd5c5c;
+}
+.my-message-box {
+  text-align: left;
+  display: inline-block;
+  vertical-align: top;
+}
+.other-message-box {
+  text-align: left;
+  display: inline-block;
+  vertical-align: top;
+}
+.flexcontainer {
+   display: flex;
+   flex: 50%;
+   flex-direction: row;
+}
+.flexcontainer:hover{
+  background: #f0ffff;
+  cursor: pointer;
+}
+.flexcontainer > div{
+  margin: 0 10px 15px 5px;
+}
+
+.flexmessagebox {
+   display: flex;
+   flex: 50%;
+   flex-direction: column;
+   justify-content: flex-start;
+}

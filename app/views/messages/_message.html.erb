@@ -3,7 +3,20 @@
   <div class="border-bottom border-danger"></div>
 <% end %>
 
-<div>
-  <div class="font-weight-bold"><%= message.user.name %></div>
-  <div><%= message.body %></div>
-</div>
+<% if current_user.id == message.user_id %>
+  <div class = "flexcontainer">
+    <%= image_tag avatar_path(current_user, size: 50), height: 50, width: 50, class: "rounded" %>
+    <div class "flexmessagebox">
+      <div class="font-weight-bold my-name-color"><%= message.user.name %></div>
+      <div class="my-message-box"><%= message.body %></div>
+    </div>
+  </div>
+<% else %>
+  <div class = "flexcontainer">
+    <%= image_tag avatar_path(message.user, size: 50), height: 50, width: 50, class: "rounded" %>
+    <div class "flexmessagebox">
+      <div class="font-weight-bold other-name-color"><%= message.user.name %></div>
+      <div class="my-message-box"><%= message.body %></div>
+    </div>
+  </div>
+<% end %>
