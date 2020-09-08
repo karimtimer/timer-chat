@@ -12,8 +12,12 @@ export default class extends Controller {
     })
   }
 
+  disconnect(){
+    consumer.subscriptions.remove(this.subscription)
+  }
 
   _connected(){
+    this.scrollToBottom()
   }
 
   _disconnected(){
@@ -30,8 +34,11 @@ export default class extends Controller {
     }
   }
 
-
   clearMessage(event) {
     this.newMessageTarget.value = ''
+  }
+
+  scrollToBottom(){
+    window.scrollTo(0, document.body.scrollHeight)
   }
 }
