@@ -2,7 +2,7 @@ import { Controller } from "stimulus"
 import consumer from "channels/consumer"
 
 export default class extends Controller {
-  static targets = []
+  static targets = ["messages", "newMessage"]
 
   connect() {
     this.subscription = consumer.subscriptions.create({ channel: "MessageChannel", id: this.data.get("id") }, {
@@ -17,9 +17,17 @@ export default class extends Controller {
   }
 
   _disconnected(){
+    consumer.subscription.remove(this.subscription)
   }
 
   _received(data){
-    console.log(data)
+    if (data.message) {
+      this.messagesTarget.insertAdjacentHTML('beforeend', data.message)
+    }
+  }
+
+
+  clearMessage(event) {
+    this.newMessageTarget.value = ''
   }
 }
