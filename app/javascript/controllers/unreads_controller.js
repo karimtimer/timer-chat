@@ -2,8 +2,10 @@ import { Controller } from "stimulus"
 import consumer from "channels/consumer"
 
 export default class extends Controller {
+static targets = ["mentions"]
 
   connect() {
+    this.username = document.querySelector("meta[name='username']").getAttribute("content")
     this.subscription = consumer.subscriptions.create({ channel: "UnreadsChannel", id: this.data.get("id") }, {
       connected: this._connected.bind(this),
       disconnected: this._disconnected.bind(this),
@@ -11,6 +13,9 @@ export default class extends Controller {
     })
   }
 
+  disconnect(){
+    consumer.subscriptions.remove(this.subscription)
+  }
 
   _connected(){
   }
@@ -21,8 +26,10 @@ export default class extends Controller {
   _received(data){
     this.element.classList.add("font-weight-bold")
 
-    if (data.mentions){
-      console.log("shoulafsdfsdgo");
+    if (data.mentions && data.mentions.includes(this.username)){
+      let count = parseInt(this.mentionsTarget.textContent)
+      this.mentionsTarget.textContent = count + 1
+      this.mentionsTarget.removeAttribute("hidden")
       this.notify(data.body)
     }
   }
