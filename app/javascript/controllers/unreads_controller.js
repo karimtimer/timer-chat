@@ -20,5 +20,21 @@ export default class extends Controller {
 
   _received(data){
     this.element.classList.add("font-weight-bold")
+
+    if (data.mentions){
+      console.log("shoulafsdfsdgo");
+      this.notify(data.body)
+    }
+  }
+
+  notify(message) {
+
+    if(!("Notification" in window)) {
+      console.error("This browser does not support desktop notification");
+    }
+
+    else if (Notification.permission === "default" || "granted" ){
+      var notification = new Notification(message);
+    }
   }
 }

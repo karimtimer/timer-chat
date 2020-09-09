@@ -7,6 +7,7 @@ require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
+require("custom/settings")
 require("local-time").start()
 
 window.Rails = Rails
