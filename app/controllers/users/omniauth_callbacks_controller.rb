@@ -1,21 +1,32 @@
 module Users
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
-    before_action :set_service
-    before_action :set_user
+    skip_before_action :verify_authenticity_token, only: :twitter
 
     attr_reader :service, :user
 
-    def facebook
-      handle_auth "Facebook"
-    end
-
     def twitter
-      handle_auth "Twitter"
+      # You need to implement the method below in your model (e.g. app/models/user.rb)
+      @user = User.from_omniauth(request.env["omniauth.auth"].except("extra"))
+
+      if @user.persisted?
+        sign_in_and_redirect @user, event: :authentication #this will throw if @user is not activated
+        set_flash_message(:notice, :success, kind: "Twitter") if is_navigational_format?
+      else
+        session["devise.twitter_data"] = request.env["omniauth.auth"].except(:extra) # Removing extra as it can overflow some session stores
+
+        puts @user.errors
+
+        redirect_to new_user_registration_url
+      end
     end
 
-    def github
-      handle_auth "Github"
+    def failure
+      redirect_to root_path
     end
+
+    # def github
+    #   handle_auth "Github"
+    # end
 
     private
 
@@ -60,11 +71,11 @@ module Users
     def service_attrs
       expires_at = auth.credentials.expires_at.present? ? Time.at(auth.credentials.expires_at) : nil
       {
-          provider: auth.provider,
-          uid: auth.uid,
-          expires_at: expires_at,
-          access_token: auth.credentials.token,
-          access_token_secret: auth.credentials.secret,
+        provider: auth.provider,
+        uid: auth.uid,
+        expires_at: expires_at,
+        access_token: auth.credentials.token,
+        access_token_secret: auth.credentials.secret,
       }
     end
 
