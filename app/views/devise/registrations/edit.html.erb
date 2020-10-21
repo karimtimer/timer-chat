@@ -28,7 +28,7 @@
             <% puts resource.avatar %>
               <%= image_tag resource.avatar, height: 100, width: 100, class: "rounded border shadow-sm d-block mx-auto my-3"  %>
             <% elsif current_user.email %>
-              <%= image_tag gravatar_image_url(current_user.email, size: 100), height: 100, width: 100, class: "rounded-circle" %>      
+              <%# <%= image_tag gravatar_image_url(current_user.email, size: 100), height: 100, width: 100, class: "rounded-circle" %1> %>      
             <% else %>
             <% end %>
           </div>
