@@ -1,4 +1,4 @@
-<div class="sticky-top pt-3">
+<div class="sticky-top sticky-offset pt-3">
   <div class="d-flex justify-content-between">
     <h6>Channels</h6>
     <%= link_to icon("fas", "plus"), new_channel_path %>
@@ -23,12 +23,20 @@
     <div>
       <% if user.id == current_user.id %>
         <div class="pb-2">
-          <%= image_tag avatar_path(current_user, size: 30), height: 30, width: 30, class: "rounded" %>
+          <% if current_user.avatar.attached? %>
+            <%= image_tag current_user.avatar, height: 30, width: 30, class: "rounded"  %>
+          <% else %>
+            <%= image_tag avatar_path(current_user, size: 30), height: 30, width: 30, class: "rounded" %>      
+          <% end %>
           <%= user.name%>(me)
         </div>
       <% else %>
         <div class="pb-2">
-          <%= image_tag avatar_path(user, size: 30), height: 30, width: 30, class: "rounded" %>
+          <% if user.avatar.attached? %>
+            <%= image_tag user.avatar, height: 30, width: 30, class: "rounded"  %>
+          <% else %>
+            <%= image_tag avatar_path(user, size: 30), height: 30, width: 30, class: "rounded" %>      
+          <% end %>
           <%= user.name %>
         </div>
       <% end %>

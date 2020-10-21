@@ -5,7 +5,11 @@
 
 <% if current_user.id == message.user_id %>
   <div class = "flexcontainer">
-    <%= image_tag avatar_path(current_user, size: 50), height: 50, width: 50, class: "rounded" %>
+    <% if current_user.avatar.attached? %>
+      <%= image_tag current_user.avatar, size: 50, class: "rounded" %>
+    <% else %>
+      <%= image_tag avatarpath(current_user, size: 50), class: "rounded" %>      
+    <% end %>
     <div class "flexmessagebox">
       <div class="font-weight-bold my-name-color"><%= message.user.name %></div>
       <div class="my-message-box"><%= message.body %></div>
@@ -13,7 +17,11 @@
   </div>
 <% else %>
   <div class = "flexcontainer">
-    <%= image_tag avatar_path(message.user, size: 50), height: 50, width: 50, class: "rounded" %>
+    <% if message.user.avatar.attached? %>
+      <%= image_tag message.user.avatar, height: 50, width: 50, class: "rounded"  %>
+    <% else %>
+      <%= image_tag avatar_path(message.user, size: 50), height: 50, width: 50, class: "rounded" %>      
+    <% end %>
     <div class "flexmessagebox">
       <div class="font-weight-bold other-name-color"><%= message.user.name %></div>
       <div class="my-message-box"><%= message.body %></div>
